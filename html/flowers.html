@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Growing Tulips in Your Front Yard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fdf7f9;
+      --accent: #f38ca3;
+      --accent-soft: rgba(243, 140, 163, 0.18);
+      --text: #353338;
+      --muted: #8b8791;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --border-soft: rgba(0, 0, 0, 0.05);
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.08);
+      --radius-xl: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #fffafc 0%, #fdeef3 40%, #f6f7fb 100%);
+      color: var(--text);
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .page {
+      max-width: 980px;
+      width: 100%;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .inner {
+      padding: 2.6rem 2.4rem 2.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    /* HERO HEADER WITH TULIP IMAGE */
+    .hero {
+      position: relative;
+      height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      background-image: url("https://images.pexels.com/photos/36764/spring-tulips-flowers-nature.jpg?auto=compress&cs=tinysrgb&w=1600");
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.7);
+      transform: scale(1.02);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.15));
+      mix-blend-mode: multiply;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      padding: 1.5rem 2rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      font-size: 0.78rem;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .pill .icon {
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: clamp(2.2rem, 3vw, 2.8rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 span.highlight {
+      position: relative;
+      display: inline-block;
+      padding: 0 0.15em;
+    }
+
+    h1 span.highlight::after {
+      content: "";
+      position: absolute;
+      inset: 75% -5px -3px;
+      background: rgba(255, 255, 255, 0.32);
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .subtitle {
+      font-size: 0.98rem;
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .hero-icons {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      margin-top: 0.6rem;
+    }
+
+    /* MAIN CONTENT */
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      margin-top: 0.6rem;
+    }
+
+    section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .section-title {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+    }
+
+    .section-title::before,
+    .section-title::after {
+      content: "";
+      height: 1px;
+      width: 48px;
+      background: linear-gradient(to right, transparent, var(--accent-soft), transparent);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: 1.6rem 1.4rem 1.5rem;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background-image: url("https://images.pexels.com/photos/3520962/pexels-photo-3520962.jpeg?auto=compress&cs=tinysrgb&w=800");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.06;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .card-text {
+      font-size: 0.93rem;
+      line-height: 1.6;
+    }
+
+    .card-text strong {
+      font-weight: 500;
+    }
+
+    /* LINKS INSIDE CARDS */
+    .card-text a {
+      display: inline-block;
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: var(--accent);
+      border-bottom: 1px dashed rgba(243, 140, 163, 0.6);
+      padding-bottom: 0.1rem;
+    }
+
+    .card-text a:hover {
+      border-bottom-style: solid;
+    }
+
+    /* SIMPLE PLANTING STEPS – SYMMETRIC 2x2 GRID */
+    .steps-wrapper {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.1rem 1.3rem;
+      align-items: stretch;
+    }
+
+    .step {
+      background: var(--card-bg);
+      border-radius: 22px;
+      padding: 1.4rem 1.3rem 1.3rem;
+      border: 1px dashed var(--border-soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 150px;
+    }
+
+    .step-number {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .step-number span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      font-size: 0.85rem;
+    }
+
+    .step-text {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    /* TUTORIAL / RESOURCE CARDS */
+    .tutorial-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* FOOTER NOTE */
+    footer {
+      border-radius: 20px;
+      padding: 1.1rem 1rem 0.9rem;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid var(--border-soft);
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      color: var(--muted);
+    }
+
+    footer .note-label {
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+    }
+
+    footer .note-label .icon {
+      margin-right: 0.25rem;
+    }
+
+    footer p {
+      line-height: 1.5;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .inner {
+        padding: 2.2rem 1.6rem 2.2rem;
+      }
+      .steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        height: 230px;
+      }
+      .hero-content {
+        padding: 1.3rem 1.4rem;
+      }
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="page">
+    <!-- HERO HEADER WITH TULIP IMAGE -->
+    <header class="hero">
+      <div class="hero-media" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="pill">
+          <span class="icon">🌷</span>
+          FRONT-YARD GARDEN GUIDE
+        </div>
+        <h1>
+          How to Grow
+          <span class="highlight">Tulips</span>
+          in Your Front Yard
+        </h1>
+        <p class="subtitle">
+          A minimal, modern guide to creating a soft drift of tulips that greets you (and your neighbors) every spring.
+        </p>
+        <div class="hero-icons">
+          <span>🌷</span><span>🌸</span><span>💮</span><span>🌷</span><span>🌸</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="inner">
+      <div class="content">
+
+        <!-- TULIP ESSENTIALS -->
+        <section aria-labelledby="essentials">
+          <h2 id="essentials" class="section-title">
+            Tulip Essentials
+          </h2>
+
+          <div class="cards">
+            <article class="card">
+              <div class="card-inner">
+                <div class="card-icon">🌞</div>
+                <div class="card-title">Light &amp; Placement</div>
+                <p class="card-text">
+                  Tulips love <strong>full sun</strong>—at least 6 hours a day. Choose a front-yard spot that is
+                  bright, slightly elevated, and <strong>visible from the street</strong> for maximum curb appeal.
+                </p>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-inner">
+                <div class="card-icon">🪴</div>
+                <div class="card-title">Soil &amp; Drainage</div>
+                <p class="card-text">
+                  They dislike “wet feet.” Aim for <strong>well-draining soil</strong>. If your soil is heavy clay,
+                  mix in compost and a bit of sand to create a light, crumbly texture that tulips love.
+                </p>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-inner">
+                <div class="card-icon">🧅</div>
+                <div class="card-title">Bulb Quality</div>
+                <p class="card-text">
+                  Look for <strong>firm, plump bulbs</strong> with no mold or soft spots. Bigger bulbs usually mean
+                  <strong>bigger blooms</strong>, perfect for a polished front-yard display.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- SYMMETRIC SIMPLE PLANTING STEPS -->
+        <section aria-labelledby="steps">
+          <h2 id="steps" class="section-title">
+            Simple Planting Steps
+          </h2>
+
+          <div class="steps-wrapper">
+            <div class="steps">
+              <div class="step">
+                <div class="step-number">
+                  <span>1</span> Design Your Drift
+                </div>
+                <p class="step-text">
+                  Sketch a loose curve or cluster near your walkway or porch. Tulips look most natural planted in
+                  <strong>groups of 10–20</strong> rather than in a straight line.
+                </p>
+              </div>
+
+              <div class="step">
+                <div class="step-number">
+                  <span>2</span> Plant at the Right Time
+                </div>
+                <p class="step-text">
+                  Plant bulbs in <strong>fall</strong> (once soil is cool but not frozen), usually when you’re wearing
+                  a light jacket outside. This gives them time to root before winter.
+                </p>
+              </div>
+
+              <div class="step">
+                <div class="step-number">
+                  <span>3</span> Dig, Drop, Cover
+                </div>
+                <p class="step-text">
+                  Dig holes about <strong>3× as deep as the bulb is tall</strong>. Place bulbs pointed side up, gently
+                  cover with soil, and water once to settle everything in.
+                </p>
+              </div>
+
+              <div class="step">
+                <div class="step-number">
+                  <span>4</span> Layer &amp; Companion Plant
+                </div>
+                <p class="step-text">
+                  For a fuller look, combine tulips with low spring perennials or groundcover. Think of it as
+                  <strong>layered florals</strong> instead of a single row of color.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARE & AFTER BLOOM -->
+        <section aria-labelledby="care">
+          <h2 id="care" class="section-title">
+            Care &amp; After Bloom
+          </h2>
+
+          <div class="cards">
+            <article class="card">
+              <div class="card-inner">
+                <div class="card-icon">💧</div>
+                <div class="card-title">Watering</div>
+                <p class="card-text">
+                  After planting, water once to settle the soil. In spring, water only if it’s been
+                  <strong>unusually dry</strong>. Tulips prefer things on the slightly dry side.
+                </p>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-inner">
+                <div class="card-icon">✂️</div>
+                <div class="card-title">Deadheading</div>
+                <p class="card-text">
+                  Once petals fall, clip the spent bloom but <strong>leave the leaves</strong>. The foliage continues
+                  feeding the bulb for next year’s show.
+                </p>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-inner">
+                <div class="card-icon">🧺</div>
+                <div class="card-title">Refresh Over Time</div>
+                <p class="card-text">
+                  Some tulip varieties fade after a few years. Every couple of seasons, <strong>add fresh bulbs</strong>
+                  to keep your front yard tulip display lush and full.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- TUTORIALS & RESOURCES SECTION WITH LINKS -->
+        <section aria-labelledby="tutorials">
+          <h2 id="tutorials" class="section-title">
+            Tutorials &amp; Resources
+          </h2>
+
+          <div class="cards">
+            <article class="card">
+              <div class="card-inner">
+                <div class="tutorial-icon">📘</div>
+                <div class="card-title">Beginner Tulip Guide</div>
+                <p class="card-text">
+                  Step-by-step advice on planting, spacing, and soil prep—great if this is your
+                  <strong>first tulip season</strong>.
+                  <a href="https://www.almanac.com/plant/tulips" target="_blank" rel="noopener">
+                    Old Farmer’s Almanac Tulip Guide
+                  </a>
+                </p>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-inner">
+                <div class="tutorial-icon">🌐</div>
+                <div class="card-title">Design Inspiration</div>
+                <p class="card-text">
+                  Browse ideas for color palettes, layering, and front-yard layouts that look
+                  <strong>intentional and modern</strong>.
+                  <a href="https://www.rhs.org.uk/plants/tulips" target="_blank" rel="noopener">
+                    RHS Tulip Inspiration &amp; Advice
+                  </a>
+                </p>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-inner">
+                <div class="tutorial-icon">🎥</div>
+                <div class="card-title">Watch &amp; Learn</div>
+                <p class="card-text">
+                  Visual learner? Watch gardeners plant bulbs, talk depth and spacing, and show real-life results.
+                  <a href="https://www.youtube.com/results?search_query=how+to+plant+tulip+bulbs" target="_blank" rel="noopener">
+                    YouTube: How to Plant Tulip Bulbs
+                  </a>
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- FOOTER NOTE -->
+        <footer>
+          <div class="note-label">
+            <span class="icon">🌷</span>Quiet Front-Yard Magic
+          </div>
+          <p>
+            A small curve of tulips, a simple palette, and clean lines are often enough.
+            Let your front yard feel like a <strong>soft gallery of spring color</strong>—minimal, modern, and quietly floral.
+          </p>
+        </footer>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
